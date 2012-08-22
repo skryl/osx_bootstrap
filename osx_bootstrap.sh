@@ -134,7 +134,7 @@ defaults -currentHost write com.apple.systemuiserver dontAutoLoad -array-add  "/
 defaults -currentHost write com.apple.systemuiserver dontAutoLoad -array-add  "/System/Library/CoreServices/Menu Extras/User.menu"
 
 # Customize menu bar
-defaults write com.apple.systemuiserver 'menuExtras' -array '/System/Library/CoreServices/Menu Extras/TextInput.menu' '/System/Library/CoreServices/Menu Extras/AirPort.menu' '/System/Library/CoreServices/Menu Extras/Battery.menu' '/System/Library/CoreServices/Menu Extras/Clock.menu' 
+defaults write com.apple.systemuiserver 'menuExtras' -array '/Library/Application\ Support/iStat\ local/extras/MenuCracker.menu' '/System/Library/CoreServices/Menu Extras/TextInput.menu' '/System/Library/CoreServices/Menu Extras/AirPort.menu' '/System/Library/CoreServices/Menu Extras/Battery.menu' '/System/Library/CoreServices/Menu Extras/Clock.menu' 
 
 # Save screenshots to the desktop
 defaults write com.apple.screencapture location -string "$HOME/Desktop"
