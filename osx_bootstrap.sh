@@ -88,6 +88,9 @@ defaults write NSGlobalDomain NSTextShowsControlCharacters -bool true
 # Expand print panel by default
 defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
 
+# Auto mount all disks before login
+sudo defaults write /Library/Preferences/SystemConfiguration/ autodiskmount AutomountDisksWithoutUserLogin -bool true
+
 # Number of recent items: Applications: None
 osascript -e 'tell application "System Events" to tell appearance preferences to set recent applications limit to 0'
 
@@ -416,6 +419,10 @@ defaults write -g com.apple.scrollwheel.scaling -float 3
 
 # Double click speed
 defaults write -g doubleClickThreshold -float 1.4
+
+# Trackpad auto orientation
+defaults write com.apple.trackpad.orientation TrackpadOrientationMode 1 
+sudo defaults write com.apple.MultitouchSupport ForceAutoOrientation YES
 
 # Trackpad speed
 defaults write -g com.apple.trackpad.scaling -float 1
