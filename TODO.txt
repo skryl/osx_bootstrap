@@ -1,23 +1,2 @@
 * Install OSX
 * Install Xcode w/ Command Line Tools
-* Install Apps and Pref Panes
-* Install homebrew
-
-* brews: 
-
-rbenv, ruby-build, ack, ctags, htop, rbenv, postgresql, ruby-build, tofrodos, sqlite, tree, wget
-tmux, avr-binutils, avr-gcc, avr-libc, git imagemagick, mobile-shell, macvim,
-synergy, fasd
-
-* gems: 
-
-bundler, homesick, fuzzy_notes, powder
-
-* Install dev tools: 
-
-pow
-
-* bootstrap dotfiles w/ homesick
-* pull ssh keys from another machine
-* Run osx_bootstrap.rb
-* Turn off auto-open windows after login

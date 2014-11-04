@@ -2,25 +2,23 @@
 #   http://secrets.blacktree.com
 #   http://mths.be/osx
 #   http://github.com/ptb/Mac-OS-X-Lion-Setup
+#   http://github.com/brandonb927/osx-for-hackers.sh
 #   ~/Library/Prefereces/*
-
-# TODO
-#  Keyboard Shortcuts
 
 echo "Configuring System..."
 
 ###############################################################################
-# General 
+# General
 ###############################################################################
 echo "  -> General"
 
 ### Pref Pane ###
 
 # Appearance: Graphite
-defaults write -g 'AppleAquaColorVariant' -int 6
+# defaults write -g 'AppleAquaColorVariant' -int 6
 
 # Highlight color: #CC99CC
-defaults write -g 'AppleHighlightColor' -string '0.600000 0.800000 0.600000'
+# defaults write -g 'AppleHighlightColor' -string '0.600000 0.800000 0.600000'
 
 # Sidebar icon size: small
 defaults write NSGlobalDomain NSTableViewDefaultSizeMode -int 1
@@ -31,12 +29,11 @@ defaults write NSGlobalDomain AppleShowScrollBars -string "Always"
 # Close windows when quitting an application
 defaults write NSGlobalDomain NSQuitAlwaysKeepsWindows -bool false
 
-# FIXME Modify the number of items in the Open Recent menu
-defaults write -g 'NSRecentDocumentsLimit' -int 0
+# Modify the number of items in the Open Recent menu
+# defaults write -g 'NSRecentDocumentsLimit' -int 10
 
 # Text smoothing font limit
 defaults write -g 'AppleAntiAliasingThreshold' -int 4
-
 
 ### Hidden ###
 
@@ -87,19 +84,32 @@ defaults write NSGlobalDomain NSTextShowsControlCharacters -bool true
 
 # Expand print panel by default
 defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
+defaults write NSGlobalDomain PMPrintingExpandedStateForPrint2 -bool true
+
+# Save to disk, rather than iCloud
+defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
 
 # Auto mount all disks before login
 sudo defaults write /Library/Preferences/SystemConfiguration/ autodiskmount AutomountDisksWithoutUserLogin -bool true
 
 # Number of recent items: Applications: None
-osascript -e 'tell application "System Events" to tell appearance preferences to set recent applications limit to 0'
+# osascript -e 'tell application "System Events" to tell appearance preferences to set recent applications limit to 0'
 
 # Number of recent items: Documents: None
-osascript -e 'tell application "System Events" to tell appearance preferences to set recent documents limit to 0'
+# osascript -e 'tell application "System Events" to tell appearance preferences to set recent documents limit to 0'
 
 # Number of recent items: Servers: None
-osascript -e 'tell application "System Events" to tell appearance preferences to set recent servers limit to 0'
+# osascript -e 'tell application "System Events" to tell appearance preferences to set recent servers limit to 0'
 
+# Removing duplicates in the 'Open With' menu"
+/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user
+
+# Disable smart quotes and smart dashes? (y/n)"
+defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
+defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
+
+# Add ability to toggle between Light and Dark mode in Yosemite using ctrl+opt+cmd+t? (y/n)"
+sudo defaults write /Library/Preferences/.GlobalPreferences.plist _HIEnableThemeSwitchHotKey -bool true
 
 ###############################################################################
 # Desktop & Screensaver
@@ -109,14 +119,14 @@ echo "  -> Desktop"
 ### Pref Pane ###
 
 # Solid Colors: black
-rm "$HOME/Library/Preferences/com.apple.desktop.plist" > /dev/null 2>&1
-/usr/libexec/PlistBuddy "$HOME/Library/Preferences/com.apple.desktop.plist" -c 'Add Background:default:BackgroundColor array' > /dev/null 2>&1
-/usr/libexec/PlistBuddy "$HOME/Library/Preferences/com.apple.desktop.plist" -c 'Add Background:default:BackgroundColor:0 real 0'
-/usr/libexec/PlistBuddy "$HOME/Library/Preferences/com.apple.desktop.plist" -c 'Add Background:default:BackgroundColor:1 real 0'
-/usr/libexec/PlistBuddy "$HOME/Library/Preferences/com.apple.desktop.plist" -c 'Add Background:default:BackgroundColor:2 real 0'
-/usr/libexec/PlistBuddy "$HOME/Library/Preferences/com.apple.desktop.plist" -c 'Add Background:default:DrawBackgroundColor bool true'
-/usr/libexec/PlistBuddy "$HOME/Library/Preferences/com.apple.desktop.plist" -c 'Add Background:default:ImageFilePath string /System/Library/PreferencePanes/DesktopScreenEffectsPref.prefPane/Contents/Resources/DesktopPictures.prefPane/Contents/Resources/Transparent.png'
-/usr/libexec/PlistBuddy "$HOME/Library/Preferences/com.apple.desktop.plist" -c 'Add Background:default:NoImage bool true'
+# rm "$HOME/Library/Preferences/com.apple.desktop.plist" > /dev/null 2>&1
+# /usr/libexec/PlistBuddy "$HOME/Library/Preferences/com.apple.desktop.plist" -c 'Add Background:default:BackgroundColor array' > /dev/null 2>&1
+# /usr/libexec/PlistBuddy "$HOME/Library/Preferences/com.apple.desktop.plist" -c 'Add Background:default:BackgroundColor:0 real 0'
+# /usr/libexec/PlistBuddy "$HOME/Library/Preferences/com.apple.desktop.plist" -c 'Add Background:default:BackgroundColor:1 real 0'
+# /usr/libexec/PlistBuddy "$HOME/Library/Preferences/com.apple.desktop.plist" -c 'Add Background:default:BackgroundColor:2 real 0'
+# /usr/libexec/PlistBuddy "$HOME/Library/Preferences/com.apple.desktop.plist" -c 'Add Background:default:DrawBackgroundColor bool true'
+# /usr/libexec/PlistBuddy "$HOME/Library/Preferences/com.apple.desktop.plist" -c 'Add Background:default:ImageFilePath string /System/Library/PreferencePanes/DesktopScreenEffectsPref.prefPane/Contents/Resources/DesktopPictures.prefPane/Contents/Resources/Transparent.png'
+# /usr/libexec/PlistBuddy "$HOME/Library/Preferences/com.apple.desktop.plist" -c 'Add Background:default:NoImage bool true'
 
 # Menu bar transparency
 defaults write NSGlobalDomain AppleEnableMenuBarTransparency -bool true
@@ -128,16 +138,20 @@ defaults -currentHost write com.apple.screensaver '{ idleTime = 0; moduleDict = 
 
 # Menu bar: show remaining battery percentage; hide time
 defaults write com.apple.menuextra.battery ShowPercent -string "YES"
-defaults write com.apple.menuextra.battery ShowTime -string "NO"
+# defaults write com.apple.menuextra.battery ShowTime -string "NO"
 
 # Menu bar: hide useless icons
-defaults -currentHost write com.apple.systemuiserver dontAutoLoad -array-add  "/System/Library/CoreServices/Menu Extras/TimeMachine.menu"
-defaults -currentHost write com.apple.systemuiserver dontAutoLoad -array-add  "/System/Library/CoreServices/Menu Extras/Bluetooth.menu"
-defaults -currentHost write com.apple.systemuiserver dontAutoLoad -array-add  "/System/Library/CoreServices/Menu Extras/Volume.menu"
-defaults -currentHost write com.apple.systemuiserver dontAutoLoad -array-add  "/System/Library/CoreServices/Menu Extras/User.menu"
+# defaults -currentHost write com.apple.systemuiserver dontAutoLoad -array-add  "/System/Library/CoreServices/Menu Extras/TimeMachine.menu"
+# defaults -currentHost write com.apple.systemuiserver dontAutoLoad -array-add  "/System/Library/CoreServices/Menu Extras/Bluetooth.menu"
+# defaults -currentHost write com.apple.systemuiserver dontAutoLoad -array-add  "/System/Library/CoreServices/Menu Extras/Volume.menu"
+# defaults -currentHost write com.apple.systemuiserver dontAutoLoad -array-add  "/System/Library/CoreServices/Menu Extras/User.menu"
 
 # Customize menu bar
-defaults write com.apple.systemuiserver 'menuExtras' -array '/Library/Application\ Support/iStat\ local/extras/MenuCracker.menu' '/System/Library/CoreServices/Menu Extras/TextInput.menu' '/System/Library/CoreServices/Menu Extras/AirPort.menu' '/System/Library/CoreServices/Menu Extras/Battery.menu' '/System/Library/CoreServices/Menu Extras/Clock.menu' 
+# defaults write com.apple.systemuiserver 'menuExtras' -array
+#   '/System/Library/CoreServices/Menu Extras/TextInput.menu'
+#   '/System/Library/CoreServices/Menu Extras/AirPort.menu'
+#   '/System/Library/CoreServices/Menu Extras/Battery.menu'
+#   '/System/Library/CoreServices/Menu Extras/Clock.menu'
 
 # Save screenshots to the desktop
 defaults write com.apple.screencapture location -string "$HOME/Desktop"
@@ -149,29 +163,29 @@ defaults write com.apple.screencapture type -string "png"
 defaults write com.apple.screencapture disable-shadow -bool true
 
 ###############################################################################
-# Dock 
+# Dock
 ###############################################################################
 echo "  -> Dock"
 
 ### Pref Pane ###
 
-# Set the icon size of Dock items to 36 pixels
+# Set the icon size of Dock items
 defaults write com.apple.dock tilesize -int 32
 
 # Magnification off
 defaults write com.apple.dock magnification -bool false
 
 # Magnification size
-defaults write com.apple.dock 'largesize' -int 64
+# defaults write com.apple.dock 'largesize' -int 64
 
 # dock position
-defaults write com.apple.dock orientation -string "Bottom"
+# defaults write com.apple.dock orientation -string "Bottom"
 
 # minimize effect
 defaults write com.apple.dock mineffect -string "Scale"
 
 # Minimize window when titlebar is double clicked
-defaults write NSGlobalDomain AppleMiniaturizeOnDoubleClick -bool true
+# defaults write NSGlobalDomain AppleMiniaturizeOnDoubleClick -bool true
 
 # minimize to application icon
 defaults write com.apple.dock minimize-to-application -bool true
@@ -185,28 +199,24 @@ defaults write com.apple.dock autohide -bool true
 # Show indicator lights for open applications in the Dock
 defaults write com.apple.dock show-process-indicators -bool true
 
-
 ### Hidden ###
-
-# Disable Drag to Spaces
-defaults write com.apple.dock workspaces-edge-delay -float 60
 
 # Enable highlight hover effect for the grid view of a stack (Dock)
 defaults write com.apple.dock mouse-over-hilte-stack -bool true
 
 # Enable the 2D Dock
-defaults write com.apple.dock no-glass -bool true
+# defaults write com.apple.dock no-glass -bool true
 
 # Make Dock icons of hidden applications translucent
 defaults write com.apple.dock showhidden -bool true
 
 # Enable iTunes track notifications in the Dock
-defaults write com.apple.dock itunes-notifications -bool true
+# defaults write com.apple.dock itunes-notifications -bool true
 
 # Enable spring loading for all Dock items
-defaults write com.apple.dock enable-spring-load-actions-on-all-items -bool true
+# defaults write com.apple.dock enable-spring-load-actions-on-all-items -bool true
 
-# Remote autohide animation
+# Remove autohide animation
 defaults write com.apple.dock autohide-time-modifier -int 0
 
 # Remove autohide delay
@@ -216,16 +226,15 @@ defaults write com.apple.dock autohide-delay -float 0
 find ~/Library/Application\ Support/Dock -name "*.db" -maxdepth 1 -delete
 
 # Dock App Icons
-defaults write com.apple.dock 'checked-for-launchpad' -bool true
+# defaults write com.apple.dock 'checked-for-launchpad' -bool true
 
-/usr/libexec/PlistBuddy "$HOME/Library/Preferences/com.apple.dock.plist" -c 'Delete :persistent-apps'
-/usr/libexec/PlistBuddy "$HOME/Library/Preferences/com.apple.dock.plist" -c 'Add :persistent-apps array'
-defaults write com.apple.dock 'persistent-apps' -array-add '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/System Preferences.app/</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
-defaults write com.apple.dock 'persistent-apps' -array-add '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/iTunes.app/</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
-defaults write com.apple.dock 'persistent-apps' -array-add '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Calendar.app/</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
-defaults write com.apple.dock 'persistent-apps' -array-add '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Mail.app/</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
-defaults write com.apple.dock 'persistent-apps' -array-add '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/iTerm.app/</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
-
+# /usr/libexec/PlistBuddy "$HOME/Library/Preferences/com.apple.dock.plist" -c 'Delete :persistent-apps'
+# /usr/libexec/PlistBuddy "$HOME/Library/Preferences/com.apple.dock.plist" -c 'Add :persistent-apps array'
+# defaults write com.apple.dock 'persistent-apps' -array-add '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/System Preferences.app/</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
+# defaults write com.apple.dock 'persistent-apps' -array-add '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/iTunes.app/</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
+# defaults write com.apple.dock 'persistent-apps' -array-add '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Calendar.app/</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
+# defaults write com.apple.dock 'persistent-apps' -array-add '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Mail.app/</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
+# defaults write com.apple.dock 'persistent-apps' -array-add '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/iTerm.app/</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
 
 ###############################################################################
 # Mission Control
@@ -235,7 +244,7 @@ echo "  -> Mission Control"
 ### Pref Pane ###
 
 # Show dashboard as a space
-defaults write com.apple.dock dashboard-in-overlay -bool false
+# defaults write com.apple.dock dashboard-in-overlay -bool false
 
 # Don't automatically rearrange spaces
 defaults write com.apple.dock mru-spaces -bool false
@@ -249,7 +258,10 @@ defaults write com.apple.dock expose-group-by-app -bool true
 ### Hidden ###
 
 # Disable Dashboard
-# defaults write com.apple.dashboard 'mcx-disabled' -bool true
+defaults write com.apple.dashboard 'mcx-disabled' -bool true
+
+# Disable Drag to Spaces
+defaults write com.apple.dock workspaces-edge-delay -float 60
 
 # Speed up Mission Control animations
 defaults write com.apple.dock expose-animation-duration -float 0.1
@@ -263,9 +275,6 @@ echo "  -> Language"
 # Disable auto-correct
 defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
 
-# FIXME Add Russian phonetic keyboard
-defaults -currentHost write com.apple.HIToolbox AppleEnabledInputSources -array-add '{ InputSourceKind="Keyboard Layout"; "KeyboardLayout ID"=0; "KeyboardLayout Name"="US";}' '{ InputSourceKind="Keyboard Layout"; "KeyboardLayout ID"=19457; "KeyboardLayout Name"="Russian - Phonetic";}'
-
 
 ###############################################################################
 # Security & Privacy
@@ -273,13 +282,13 @@ defaults -currentHost write com.apple.HIToolbox AppleEnabledInputSources -array-
 
 # Ask for password 5 seconds after sleep
 defaults write com.apple.screensaver 'askForPassword' -int 1
-defaults write com.apple.screensaver 'askForPasswordDelay' -int 5
+defaults write com.apple.screensaver 'askForPasswordDelay' -int 0
 
 # Disable GakeKeeper
 sudo spctl --master-disable
 
-# Disable Firewall
-sudo defaults write /Library/Preferences/com.apple.alf globalstate -int 0
+# Enable Firewall
+sudo defaults write /Library/Preferences/com.apple.alf globalstate -int 1
 
 
 ###############################################################################
@@ -290,26 +299,30 @@ echo "  -> Spotlight"
 ### Hidden ###
 
 # Spotlight menu keyboard shortcut: none
-/usr/libexec/PlistBuddy "$HOME/Library/Preferences/com.apple.symbolichotkeys.plist" -c 'Delete AppleSymbolicHotKeys:64' > /dev/null 2>&1
-/usr/libexec/PlistBuddy "$HOME/Library/Preferences/com.apple.symbolichotkeys.plist" -c 'Add AppleSymbolicHotKeys:64:enabled bool false'
+# /usr/libexec/PlistBuddy "$HOME/Library/Preferences/com.apple.symbolichotkeys.plist" -c 'Delete AppleSymbolicHotKeys:64' > /dev/null 2>&1
+# /usr/libexec/PlistBuddy "$HOME/Library/Preferences/com.apple.symbolichotkeys.plist" -c 'Add AppleSymbolicHotKeys:64:enabled bool false'
 
 # Spotlight window keyboard shortcut: none
-/usr/libexec/PlistBuddy "$HOME/Library/Preferences/com.apple.symbolichotkeys.plist" -c 'Delete AppleSymbolicHotKeys:65' > /dev/null 2>&1
-/usr/libexec/PlistBuddy "$HOME/Library/Preferences/com.apple.symbolichotkeys.plist" -c 'Add AppleSymbolicHotKeys:65:enabled bool false'
+# /usr/libexec/PlistBuddy "$HOME/Library/Preferences/com.apple.symbolichotkeys.plist" -c 'Delete AppleSymbolicHotKeys:65' > /dev/null 2>&1
+# /usr/libexec/PlistBuddy "$HOME/Library/Preferences/com.apple.symbolichotkeys.plist" -c 'Add AppleSymbolicHotKeys:65:enabled bool false'
 
 # Disable indexing
-sudo chmod 600 /System/Library/CoreServices/Search.bundle/Contents/MacOS/Search
+# sudo chmod 600 /System/Library/CoreServices/Search.bundle/Contents/MacOS/Search
 
 # Hide Spotlight icon
-sudo chmod 600 /System/Library/CoreServices/Search.bundle/Contents/MacOS/Search
+# sudo chmod 600 /System/Library/CoreServices/Search.bundle/Contents/MacOS/Search
+
+###############################################################################
+# Notification Center
+###############################################################################
 
 ###############################################################################
 # Displays
 ###############################################################################
 echo "  -> Displays"
 
-# Automatically adjust brightness: off
-defaults write com.apple.BezelServices 'dAuto' -bool false
+# Disable display from automatically adjusting brightness
+sudo defaults write /Library/Preferences/com.apple.iokit.AmbientLightSensor "Automatic Display Enabled" -bool false
 
 # sudo defaults write /Library/Preferences/com.apple.windowserver 'DisplayLayoutToRight' -bool true
 # sudo defaults write /Library/Preferences/com.apple.windowserver 'DisplayMainOnInternal' -bool false
@@ -317,7 +330,6 @@ defaults write com.apple.BezelServices 'dAuto' -bool false
 # Show all resolutions
 sudo defaults delete /Library/Preferences/com.apple.windowserver 'DisplayResolutionDisabled' > /dev/null 2>&1
 sudo defaults write /Library/Preferences/com.apple.windowserver 'DisplayResolutionEnabled' -bool true
-
 
 ###############################################################################
 # Energy Saver
@@ -370,6 +382,10 @@ sudo pmset -c panicrestart 15
 # Show battery status in menu bar: off
 # defaults -currentHost write com.apple.systemuiserver 'dontAutoLoad' -array-add '/System/Library/CoreServices/Menu Extras/Battery.menu'
 
+# Speeding up wake from sleep to 24 hours from an hour
+# http://www.cultofmac.com/221392/quick-hack-speeds-up-retina-macbooks-wake-from-sleep-os-x-tips/
+sudo pmset -a standbydelay 86400
+
 ###############################################################################
 # Keyboard
 ###############################################################################
@@ -382,10 +398,10 @@ defaults write NSGlobalDomain KeyRepeat -int 0
 defaults write NSGlobalDomain InitialKeyRepeat -int 0
 
 # Modifier Keys… > Apple Internal Keyboard / Trackpad > Caps Lock ( ⇪) Key: No Action
-defaults -currentHost write -g 'com.apple.keyboard.modifiermapping.1452-566-0' -array '<dict><key>HIDKeyboardModifierMappingDst</key><integer>-1</integer><key>HIDKeyboardModifierMappingSrc</key><integer>0</integer></dict>'
+# defaults -currentHost write -g 'com.apple.keyboard.modifiermapping.1452-566-0' -array '<dict><key>HIDKeyboardModifierMappingDst</key><integer>-1</integer><key>HIDKeyboardModifierMappingSrc</key><integer>0</integer></dict>'
 
 # Modifier Keys… > Apple Keyboard [External] > Caps Lock ( ⇪) Key: No Action
-defaults -currentHost write -g 'com.apple.keyboard.modifiermapping.1452-544-0' -array '<dict><key>HIDKeyboardModifierMappingDst</key><integer>-1</integer><key>HIDKeyboardModifierMappingSrc</key><integer>0</integer></dict>'
+# defaults -currentHost write -g 'com.apple.keyboard.modifiermapping.1452-544-0' -array '<dict><key>HIDKeyboardModifierMappingDst</key><integer>-1</integer><key>HIDKeyboardModifierMappingSrc</key><integer>0</integer></dict>'
 
 ### Hidden ###
 
@@ -393,7 +409,7 @@ defaults -currentHost write -g 'com.apple.keyboard.modifiermapping.1452-544-0' -
 # (e.g. enable Tab in modal dialogs)
 defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
 
-# Require fn key for special functions 
+# Require fn key for special functions
 defaults write NSGlobalDomain com.apple.keyboard.fnState -bool true
 
 # Disable press-and-hold for keys in favor of key repeat
@@ -405,6 +421,8 @@ defaults write com.apple.BezelServices 'kDim' -bool true
 # Turn off when computer is not used for: 5 mins
 defaults write com.apple.BezelServices 'kDimTime' -int 300
 
+# Disable keyboard from automatically adjusting backlight brightness in low light
+sudo defaults write /Library/Preferences/com.apple.iokit.AmbientLightSensor "Automatic Keyboard Enabled" -bool false
 
 ###############################################################################
 # Mouse & Trackpad
@@ -421,11 +439,12 @@ defaults write -g com.apple.scrollwheel.scaling -float 3
 defaults write -g doubleClickThreshold -float 1.4
 
 # Trackpad auto orientation
-defaults write com.apple.trackpad.orientation TrackpadOrientationMode 1 
+defaults write com.apple.trackpad.orientation TrackpadOrientationMode 1
 sudo defaults write com.apple.MultitouchSupport ForceAutoOrientation YES
 
 # Trackpad speed
 defaults write -g com.apple.trackpad.scaling -float 1
+# defaults write -g com.apple.mouse.scaling 2.5
 
 # Trackpad scrolling speed
 defaults write -g com.apple.trackpad.scrolling -float 0.6875
@@ -437,10 +456,7 @@ defaults write -g com.apple.trackpad.scrolling -float 0.6875
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
 defaults -currentHost write -g com.apple.mouse.tapBehavior -int 1
 
-# Map bottom left corner to right-click
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadCornerSecondaryClick -int 2
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadLeftClick -bool true
-defaults -currentHost write -g com.apple.trackpad.trackpadCornerClickBehavior -int 1
+# Two finger right click
 defaults -currentHost write -g com.apple.trackpad.enableSecondaryClick -int 1
 
 # 3 finger tap off
@@ -450,7 +466,7 @@ defaults -currentHost write -g com.apple.trackpad.threeFingerTapGesture -int 0
 defaults -currentHost write -g com.apple.trackpad.threeFingerDragGesture -int 0
 
 # Scroll direction: natural: no
-defaults write -g com.apple.swipescrolldirection -bool false
+defaults write -g com.apple.swipescrolldirection -bool true
 
 # Pinch gesture on
 defaults -currentHost write -g com.apple.trackpad.pinchGesture -int 1
@@ -462,7 +478,7 @@ defaults -currentHost write -g com.apple.trackpad.twoFingerDoubleTapGesture -int
 defaults -currentHost write -g com.apple.trackpad.rotateGesture -int 1
 
 # Two finger swipe between pages
-defaults write -g AppleEnableSwipeNavigateWithScrolls -int 1
+defaults write -g AppleEnableSwipeNavigateWithScrolls -int 0
 
 # Three finger swipe between spaces
 defaults -currentHost write -g com.apple.trackpad.threeFingerHorizSwipeGesture -int 2
@@ -496,7 +512,6 @@ defaults write com.apple.systemsound 'com.apple.sound.uiaudio.enabled' -int 0
 # Don't play feedback when volume is changed
 defaults write -g 'com.apple.sound.beep.feedback' -bool false
 
-
 ###############################################################################
 # Network
 ###############################################################################
@@ -525,15 +540,11 @@ defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int
 ###############################################################################
 echo "  -> Sharing"
 
-# Computer Name: $COMPUTERNAME
-# if [ ! "$(/usr/sbin/networksetup -getcomputername)" = "$COMPUTERNAME" ]; then
-#   sudo /usr/sbin/networksetup -setcomputername $COMPUTERNAME
-# fi
-
-# Local Hostname: $LOCALHOSTNAME
-# if [ ! "$(/usr/sbin/systemsetup -getlocalsubnetname)" = "Local Subnet Name: $LOCALHOSTNAME" ]; then
-#   sudo /usr/sbin/systemsetup -setlocalsubnetname $LOCALHOSTNAME > /dev/null 2>&1
-# fi
+COMPUTER_NAME="skryl"
+sudo scutil --set ComputerName $COMPUTER_NAME
+sudo scutil --set HostName $COMPUTER_NAME
+sudo scutil --set LocalHostName $COMPUTER_NAME
+sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string $COMPUTER_NAME
 
 # Turn Printer Sharing on
 # cupsctl --share-printers
@@ -550,36 +561,36 @@ echo "  -> Users"
 
 ### [Right Click] > Advanced Options… > Login shell: /bin/zsh
 if [ ! $SHELL = '/bin/zsh' ]; then
-  chsh -s /bin/zsh
-  sudo chsh -s /bin/zsh
+  chsh -s /usr/local/bin/zsh
+  sudo chsh -s /usr/local/bin/zsh
 fi
 
 # Login Options > Display login window as: Name and password
 # sudo defaults write /Library/Preferences/com.apple.loginwindow 'SHOWFULLNAME' -bool true
 
 # Start on login
-osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/Adium.app" }' > /dev/null 2>&1
-osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/Alfred.app" }' > /dev/null 2>&1
-osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/BetterSnapTool.app" }' > /dev/null 2>&1
-osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/BetterTouchTool.app" }' > /dev/null 2>&1
-osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/Boom.app" }' > /dev/null 2>&1
-osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/Bowtie.app" }' > /dev/null 2>&1
-osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/Caffeine.app" }' > /dev/null 2>&1
-osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/Calendar.app" }' > /dev/null 2>&1
-osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/CalendarBar.app" }' > /dev/null 2>&1
-osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/CheatSheet.app" }' > /dev/null 2>&1
-osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/CoBook.app" }' > /dev/null 2>&1
-osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/Coffee Break.app" }' > /dev/null 2>&1
-osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/Dash.app" }' > /dev/null 2>&1
-osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/Divvy.app" }' > /dev/null 2>&1
-osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/Dropbox.app" }' > /dev/null 2>&1
-osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/GeekTool.app/Contents/Plugins/GeekTool.prefPane/Contents/Resources/GeekTool Helper.app" }' > /dev/null 2>&1
-osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/Google Drive.app" }' > /dev/null 2>&1
-osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/Mail.app" }' > /dev/null 2>&1
-osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/Plex Media Server.app" }' > /dev/null 2>&1
-osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/uTorrent.app" }' > /dev/null 2>&1
-osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/QuickCursor.app" }' > /dev/null 2>&1
-osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/Wallpaper Wizard.app" }' > /dev/null 2>&1
+# osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/Adium.app" }' > /dev/null 2>&1
+# osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/Alfred.app" }' > /dev/null 2>&1
+# osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/BetterSnapTool.app" }' > /dev/null 2>&1
+# osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/BetterTouchTool.app" }' > /dev/null 2>&1
+# osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/Boom.app" }' > /dev/null 2>&1
+# osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/Bowtie.app" }' > /dev/null 2>&1
+# osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/Caffeine.app" }' > /dev/null 2>&1
+# osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/Calendar.app" }' > /dev/null 2>&1
+# osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/CalendarBar.app" }' > /dev/null 2>&1
+# osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/CheatSheet.app" }' > /dev/null 2>&1
+# osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/CoBook.app" }' > /dev/null 2>&1
+# osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/Coffee Break.app" }' > /dev/null 2>&1
+# osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/Dash.app" }' > /dev/null 2>&1
+# osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/Divvy.app" }' > /dev/null 2>&1
+# osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/Dropbox.app" }' > /dev/null 2>&1
+# osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/GeekTool.app/Contents/Plugins/GeekTool.prefPane/Contents/Resources/GeekTool Helper.app" }' > /dev/null 2>&1
+# osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/Google Drive.app" }' > /dev/null 2>&1
+# osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/Mail.app" }' > /dev/null 2>&1
+# osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/Plex Media Server.app" }' > /dev/null 2>&1
+# osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/uTorrent.app" }' > /dev/null 2>&1
+# osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/QuickCursor.app" }' > /dev/null 2>&1
+# osascript -e 'tell application "System Events" to make new login item at end of login items with properties { path: "/Applications/Wallpaper Wizard.app" }' > /dev/null 2>&1
 
 
 ###############################################################################
@@ -595,12 +606,8 @@ defaults write com.apple.menuextra.clock 'DateFormat' -string 'h:mm a'
 ###############################################################################
 echo "  -> Updates"
 
-# Check for updates: off
-# sudo /usr/sbin/softwareupdate --schedule off > /dev/null 2>&1
-# sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate 'ScheduleFrequency' -int -1
-# sudo defaults write /private/var/db/launchd.db/com.apple.launchd/overrides 'com.apple.softwareupdatecheck.initial' -dict 'Disabled' -bool true
-# sudo defaults write /private/var/db/launchd.db/com.apple.launchd/overrides 'com.apple.softwareupdatecheck.periodic' -dict 'Disabled' -bool true
-# sudo plutil -convert xml1 /private/var/db/launchd.db/com.apple.launchd/overrides.plist
+# Check for software updates daily, not just once per week
+defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1
 
 # Download updates automatically
 sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate 'AutomaticDownload' -int 1
@@ -613,7 +620,7 @@ sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate 'ConfigDataIns
 echo "  -> Speech"
 
 # Speak selected text when the key is pressed: on
-defaults write com.apple.speech.synthesis.general.prefs 'SpokenUIUseSpeakingHotKeyFlag' -bool true
+# defaults write com.apple.speech.synthesis.general.prefs 'SpokenUIUseSpeakingHotKeyFlag' -bool true
 
 
 ###############################################################################
@@ -622,7 +629,7 @@ defaults write com.apple.speech.synthesis.general.prefs 'SpokenUIUseSpeakingHotK
 echo "  -> Time Machine"
 
 # Time Machine: off
-# defaults write com.apple.TimeMachine 'AutoBackup' -bool false
+defaults write com.apple.TimeMachine 'AutoBackup' -bool false
 
 # Prevent Time Machine from prompting to use new hard drives as backup volume
 defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
@@ -632,22 +639,36 @@ hash tmutil &> /dev/null && sudo tmutil disablelocal
 
 
 ###############################################################################
+# Messages                                                                    #
+###############################################################################
+
+# Disable automatic emoji substitution in Messages.app
+defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "automaticEmojiSubstitutionEnablediMessage" -bool false
+
+# Disable smart quotes in Messages.app
+defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "automaticQuoteSubstitutionEnabled" -bool false
+
+# Disable continuous spell checking in Messages.app
+defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "continuousSpellCheckingEnabled" -bool false
+
+
+###############################################################################
 # Accessibility
 ###############################################################################
 echo "  -> Accessibility"
 
 # Enable access for assistive devices
 # osascript -e 'tell application "System Events" to set UI elements enabled to true'
-echo -n 'a' | sudo tee /private/var/db/.AccessibilityAPIEnabled > /dev/null 2>&1 
+echo -n 'a' | sudo tee /private/var/db/.AccessibilityAPIEnabled > /dev/null 2>&1
 sudo chmod 444 /private/var/db/.AccessibilityAPIEnabled
 
 # Zoom: Options… > Smooth images (Press ⌥ ⌘\ to turn smoothing on or off): off
-defaults write com.apple.universalaccess 'closeViewSmoothImages' -bool false
+# defaults write com.apple.universalaccess 'closeViewSmoothImages' -bool false
 
 # Zoom: Options… > Use scroll wheel with modifier keys to zoom: on
-defaults write com.apple.universalaccess 'closeViewScrollWheelToggle' -bool true
+# defaults write com.apple.universalaccess 'closeViewScrollWheelToggle' -bool true
 # Zoom: Options… > Use scroll wheel with modifier keys to zoom: ^ [control]
-defaults write com.apple.universalaccess 'HIDScrollZoomModifierMask' -int 262144
+# defaults write com.apple.universalaccess 'HIDScrollZoomModifierMask' -int 262144
 
 # For difficulties seeing the cursor > Cursor Size: 1.5x
 # defaults write com.apple.universalaccess 'mouseDriverCursorSize' -float 1.5
@@ -682,7 +703,7 @@ defaults write com.apple.finder ShowMountedServersOnDesktop -bool true
 defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool true
 
 # Finder: show hidden files by default
-# defaults write com.apple.Finder AppleShowAllFiles -bool true
+defaults write com.apple.Finder AppleShowAllFiles -bool true
 
 # Finder: show status bar
 defaults write com.apple.finder ShowStatusBar -bool true
@@ -719,8 +740,9 @@ defaults write com.apple.finder OpenWindowForNewRemovableDisk -bool true
 defaults write com.apple.finder 'FinderSounds' -bool false
 
 # group by type
-defaults write com.apple.finder 'FXPreferredGroupBy' -string 'Kind'
+defaults write com.apple.finder 'FXPreferredGroupBy' -string 'Name'
 
+# calculate all sizes and use relative dates
 /usr/libexec/PlistBuddy "$HOME/Library/Preferences/com.apple.finder.plist" -c 'Delete "StandardViewSettings:ExtendedListViewSettings:calculateAllSizes" bool'
 /usr/libexec/PlistBuddy "$HOME/Library/Preferences/com.apple.finder.plist" -c 'Add "StandardViewSettings:ExtendedListViewSettings:calculateAllSizes" bool true'
 
@@ -738,7 +760,7 @@ defaults write com.apple.finder 'FXPreferredGroupBy' -string 'Kind'
 # /usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist
 # /usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist
 
-# FIXME Enable snap-to-grid for icons on the desktop and in other icon views
+# Enable snap-to-grid for icons on the desktop and in other icon views
 /usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
 /usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
 /usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
@@ -749,9 +771,14 @@ defaults write com.apple.finder 'FXPreferredGroupBy' -string 'Kind'
 /usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:gridSpacing 12" ~/Library/Preferences/com.apple.finder.plist
 
 # Increase the size of icons on the desktop and in other icon views
-/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:iconSize 32" ~/Library/Preferences/com.apple.finder.plist
-/usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:iconSize 32" ~/Library/Preferences/com.apple.finder.plist
-/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:iconSize 32" ~/Library/Preferences/com.apple.finder.plist
+/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:iconSize 48" ~/Library/Preferences/com.apple.finder.plist
+/usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:iconSize 48" ~/Library/Preferences/com.apple.finder.plist
+/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:iconSize 48" ~/Library/Preferences/com.apple.finder.plist
+
+# Icon text size
+/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:textSize 11" ~/Library/Preferences/com.apple.finder.plist
+/usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:textSize 11" ~/Library/Preferences/com.apple.finder.plist
+/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:textSize 11" ~/Library/Preferences/com.apple.finder.plist
 
 # Disable the warning before emptying the Trash
 defaults write com.apple.finder WarnOnEmptyTrash -bool false
@@ -765,10 +792,8 @@ defaults write com.apple.NetworkBrowser BrowseAllInterfaces -bool true
 # Show the ~/Library folder
 chflags nohidden ~/Library
 
-# Remove Dropbox’s green checkmark icons in Finder
-file=/Applications/Dropbox.app/Contents/Resources/check.icns
-[ -e "$file" ] && mv -f "$file" "$file.bak"
-unset file
+# Use column view in all Finder windows by default?
+defaults write com.apple.finder FXPreferredViewStyle Clmv
 
 ###############################################################################
 # Safari & WebKit                                                             #
@@ -776,7 +801,7 @@ unset file
 echo "  -> Safari"
 
 # Disable Safari’s thumbnail cache for History and Top Sites
-defaults write com.apple.Safari DebugSnapshotsUpdatePolicy -int 2
+# defaults write com.apple.Safari DebugSnapshotsUpdatePolicy -int 2
 
 # Enable Safari’s debug menu
 defaults write com.apple.Safari IncludeInternalDebugMenu -bool true
@@ -785,10 +810,21 @@ defaults write com.apple.Safari IncludeInternalDebugMenu -bool true
 defaults write com.apple.Safari FindOnPageMatchesWordStartsOnly -bool false
 
 # Remove useless icons from Safari’s bookmarks bar
-defaults write com.apple.Safari ProxiesInBookmarksBar "()"
+# defaults write com.apple.Safari ProxiesInBookmarksBar "()"
 
 # Add a context menu item for showing the Web Inspector in web views
 defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
+
+# Hiding Safari's bookmarks bar by default
+# defaults write com.apple.Safari ShowFavoritesBar -bool false
+
+# Hiding Safari's sidebar in Top Sites
+# defaults write com.apple.Safari ShowSidebarInTopSites -bool false
+
+# Enabling the Develop menu and the Web Inspector in Safari
+defaults write com.apple.Safari IncludeDevelopMenu -bool true
+defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
+defaults write com.apple.Safari "com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled" -bool true
 
 ###############################################################################
 # Address Book, Dashboard, iCal, iTunes, Mail, and Disk Utility               #
@@ -796,25 +832,25 @@ defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
 echo "  -> OSX Apps"
 
 # Enable the debug menu in Address Book
-defaults write com.apple.addressbook ABShowDebugMenu -bool true
+# defaults write com.apple.addressbook ABShowDebugMenu -bool true
 
 # Enable Dashboard dev mode (allows keeping widgets on the desktop)
-defaults write com.apple.dashboard devmode -bool true
+# defaults write com.apple.dashboard devmode -bool true
 
 # Enable the debug menu in iCal
-defaults write com.apple.iCal IncludeDebugMenu -bool true
+# defaults write com.apple.iCal IncludeDebugMenu -bool true
 
 # Make the iTunes arrow links go to your library instead of the iTunes Store
-defaults write com.apple.iTunes invertStoreLinks -bool true
+# defaults write com.apple.iTunes invertStoreLinks -bool true
 
 # Disable the iTunes arrow links completely
-defaults write com.apple.iTunes show-store-arrow-links -bool false
+# defaults write com.apple.iTunes show-store-arrow-links -bool false
 
 # Disable the Ping sidebar in iTunes
-defaults write com.apple.iTunes disablePingSidebar -bool true
+# defaults write com.apple.iTunes disablePingSidebar -bool true
 
 # Disable all the other Ping stuff in iTunes
-defaults write com.apple.iTunes disablePing -bool true
+# defaults write com.apple.iTunes disablePing -bool true
 
 # Make ⌘ + F focus the search input in iTunes
 defaults write com.apple.iTunes NSUserKeyEquivalents -dict-add "Target Search Field" "@F"
@@ -822,6 +858,9 @@ defaults write com.apple.iTunes NSUserKeyEquivalents -dict-add "Target Search Fi
 # Disable send and reply animations in Mail.app
 defaults write com.apple.Mail DisableReplyAnimations -bool true
 defaults write com.apple.Mail DisableSendAnimations -bool true
+
+# Setting email addresses to copy as 'foo@example.com'
+defaults write com.apple.mail AddressesIncludeNameOnPasteboard -bool false
 
 # Copy email addresses as `foo@example.com` instead of `Foo Bar <foo@example.com>` in Mail.app
 defaults write com.apple.mail AddressesIncludeNameOnPasteboard -bool false
@@ -833,6 +872,10 @@ defaults write com.apple.DiskUtility DUDebugMenuEnabled -bool true
 # Terminal                                                                    #
 ###############################################################################
 echo "  -> Terminal"
+
+# set theme to Pro
+defaults write com.apple.Terminal "Default Window Settings" -string "Pro"
+defaults write com.apple.Terminal "Startup Window Settings" -string "Pro"
 
 # Only use UTF-8 in Terminal.app
 defaults write com.apple.terminal StringEncodings -array 4
@@ -868,12 +911,36 @@ defaults write com.twitter.twitter-mac ShowFullNames -bool true
 defaults write com.twitter.twitter-mac HideInBackground -bool true
 
 ###############################################################################
+# Transmission.app                                                            #
+###############################################################################
+
+# Use `~/Downloads/Incomplete` to store incomplete downloads
+defaults write org.m0k.transmission UseIncompleteDownloadFolder -bool true
+mkdir -p ~/Downloads/Incomplete
+defaults write org.m0k.transmission IncompleteDownloadFolder -string "${HOME}/Downloads/Incomplete"
+
+# Don't prompt for confirmation before downloading
+defaults write org.m0k.transmission DownloadAsk -bool false
+
+# Trash original torrent files
+defaults write org.m0k.transmission DeleteOriginalTorrent -bool true
+
+# Hide the donate message
+defaults write org.m0k.transmission WarningDonate -bool false
+
+# Hide the legal disclaimer
+defaults write org.m0k.transmission WarningLegal -bool false
+
+###############################################################################
 # Kill affected applications                                                  #
 ###############################################################################
 echo "Restarting..."
 
-for app in Finder Dock Mail Safari iTunes iCal Address\ Book SystemUIServer Twitter; do
+###############################################################################
+# Kill affected applications
+###############################################################################
+
+find ~/Library/Application\ Support/Dock -name "*.db" -maxdepth 1 -delete
+for app in Finder Messages Dock Mail Safari iTunes Calendar Activity\ Monitor Contacts SystemUIServer Twitter Terminal Transmission; do
   killall "$app" > /dev/null 2>&1
 done
-
-echo "Done. Note that some of these changes require a logout/restart to take effect."
