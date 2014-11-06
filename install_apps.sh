@@ -107,6 +107,7 @@ apps=(
   vagrant
   vagrant-manager
   virtualbox
+  xquartz
 
 #media
   spotify
@@ -123,7 +124,7 @@ apps=(
   bartender
   bettertouchtool
   boom
-  bowtie
+#  bowtie
   caffeine
   cheatsheet
   chromecast
@@ -138,9 +139,8 @@ apps=(
   google-hangouts
   handbrake
   harvest
-  hazel
   hex-fiend
-  hiss
+#  hiss
   hyperdock
   ichm
   istat-menus
@@ -169,6 +169,9 @@ apps=(
   visualvm
   wallpaper-wizard
   wireshark
+  day-o
+  growl-fork
+  hiss
 )
 
 fonts=(
