@@ -185,7 +185,7 @@ defaults write com.apple.dock magnification -bool false
 defaults write com.apple.dock mineffect -string "Scale"
 
 # Minimize window when titlebar is double clicked
-# defaults write NSGlobalDomain AppleMiniaturizeOnDoubleClick -bool true
+defaults write NSGlobalDomain AppleMiniaturizeOnDoubleClick -bool true
 
 # minimize to application icon
 defaults write com.apple.dock minimize-to-application -bool true
@@ -202,7 +202,7 @@ defaults write com.apple.dock show-process-indicators -bool true
 ### Hidden ###
 
 # Enable highlight hover effect for the grid view of a stack (Dock)
-defaults write com.apple.dock mouse-over-hilte-stack -bool true
+# defaults write com.apple.dock mouse-over-hilte-stack -bool true
 
 # Enable the 2D Dock
 # defaults write com.apple.dock no-glass -bool true
@@ -339,7 +339,7 @@ echo "  -> Energy Saver"
 # Battery
 
 # Computer sleep: Never
-sudo pmset -b sleep 30
+sudo pmset -b sleep 0
 
 # Display sleep: 10 min
 sudo pmset -b displaysleep 10
@@ -398,10 +398,10 @@ defaults write NSGlobalDomain KeyRepeat -int 0
 defaults write NSGlobalDomain InitialKeyRepeat -int 0
 
 # Modifier Keys… > Apple Internal Keyboard / Trackpad > Caps Lock ( ⇪) Key: No Action
-# defaults -currentHost write -g 'com.apple.keyboard.modifiermapping.1452-566-0' -array '<dict><key>HIDKeyboardModifierMappingDst</key><integer>-1</integer><key>HIDKeyboardModifierMappingSrc</key><integer>0</integer></dict>'
+defaults -currentHost write -g 'com.apple.keyboard.modifiermapping.1452-566-0' -array '<dict><key>HIDKeyboardModifierMappingDst</key><integer>-1</integer><key>HIDKeyboardModifierMappingSrc</key><integer>0</integer></dict>'
 
 # Modifier Keys… > Apple Keyboard [External] > Caps Lock ( ⇪) Key: No Action
-# defaults -currentHost write -g 'com.apple.keyboard.modifiermapping.1452-544-0' -array '<dict><key>HIDKeyboardModifierMappingDst</key><integer>-1</integer><key>HIDKeyboardModifierMappingSrc</key><integer>0</integer></dict>'
+defaults -currentHost write -g 'com.apple.keyboard.modifiermapping.1452-544-0' -array '<dict><key>HIDKeyboardModifierMappingDst</key><integer>-1</integer><key>HIDKeyboardModifierMappingSrc</key><integer>0</integer></dict>'
 
 ### Hidden ###
 
@@ -423,6 +423,7 @@ defaults write com.apple.BezelServices 'kDimTime' -int 300
 
 # Disable keyboard from automatically adjusting backlight brightness in low light
 sudo defaults write /Library/Preferences/com.apple.iokit.AmbientLightSensor "Automatic Keyboard Enabled" -bool false
+
 
 ###############################################################################
 # Mouse & Trackpad

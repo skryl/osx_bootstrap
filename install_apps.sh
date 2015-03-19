@@ -7,30 +7,31 @@ fi
 # Update homebrew recipes
 brew update
 
-# Install more recent versions of some OS X tools
+# Install Caskroom
+brew install caskroom/cask/brew-cask
+
+# Install more recent versions of some OS X eools
 brew tap homebrew/dupes
 brew tap caskroom/fonts
+brew tap homebrew/versions
+brew tap caskroom/versions
 
 binaries=(
 # tools
-  coreutils
-  findutils
-  bash
-  grep
   ack
+  aria2
+  bash
+  coreutils
   cscope
   ctags
   emacs
-  #encfsmacosxfuse
   fasd
+  findutils
   git
+  grep
   heroku-toolbelt
   htop
-  imagemagick
-  iperf
-  memcached
   mercurial
-  mobile-shell
   mysql
   netcat
   nmap
@@ -38,12 +39,10 @@ binaries=(
   postgresql
   pow
   reattach-to-user-namespace
-  redis
   rename
   rlwrap
-  skytools
   sqlite
-  #subversion
+  subversion
   the_silver_searcher
   tmux
   tofrodos
@@ -51,27 +50,25 @@ binaries=(
   tree
   weechat
   wget
+  zsh
 
 # languages
-  erlang
-  ghc
-  go
-  leiningen
   node
-  objective-caml
   python
   rbenv
   ruby
   ruby-build
-  sbt
-  scala
-  swi-prolog
+#  erlang
+#  ghc
+#  go
+#  leiningen
+#  objective-caml
+#  sbt
+#  scala
+#  swi-prolog
 )
 
 apps=(
-# Adobe Acrobat XI Pro
-# CiscoVPN
-# TomTom MySports Connect
 
 # quicklook
   qlcolorcode
@@ -79,99 +76,101 @@ apps=(
   qlstephen
   qlmarkdown
   quicklook-json
-  qlprettypatch
   quicklook-csv
   betterzipql
-  webp-quicklook
   suspicious-package
 
 # system
+  airdisplay
   asepsis
+  cheatsheet
   flash
-  seil
-  karabiner
+  istat-menus
   iterm2
   java
+  java6
+  karabiner
+  launchcontrol
+  onyx
+  seil
+  silverlight
+  slate
+  the-unarchiver
+  unetbootin
 
 # web
   firefox
   google-chrome
-  lastpass-universal
 
-#editors
-  sublime-text3
+# editors
   macvim
-  mou
+  macdown
+  sublime-text3
 
-#dev
+# dev
+  charles
+  codekit
+  github
+  hex-fiend
+  intellij-idea
+  lighttable
+  pycharm
+  reggy
+  rubymine
+  sequel-pro
+  sourcetree
   vagrant
   vagrant-manager
   virtualbox
+  visualvm
+  webstorm
+  wireshark
   xquartz
 
-#media
+# media
   spotify
+  spotify-notifications
   vlc
 
-#tools
-  #send-to-kindle
-  #navicat-premium
-  airmail
+# other
   alfred
   android-file-transfer
   appcleaner
-  appfresh
   bartender
   bettertouchtool
-  boom
-#  bowtie
   caffeine
-  cheatsheet
   chromecast
-  cleanmymac
-  daisydisk
-  dash
   djview
+  easyfind
   evernote
   flux
-  forklift
-  geektool
   google-hangouts
   handbrake
   harvest
-  hex-fiend
-#  hiss
+  hazel
+  hiss
   hyperdock
   ichm
-  istat-menus
-  kaleidoscope
-  key-codes
-  launchcontrol
-  lighttable
-  macpaw-gemini
-  nvalt
-  omnigraffle
-  onyx
-  sequel-pro
-  silverlight
+  kindle
+  music-manager
+  paw
+  send-to-kindle
   skitch
   skype
   slack
-  sourcetree
   steam
   teamviewer
-  the-unarchiver
   torbrowser
   transmission
-  trim-enabler
-  unetbootin
-  unity
-  visualvm
-  wallpaper-wizard
-  wireshark
-  day-o
-  growl-fork
-  hiss
+  walpaper-wizard
+
+#  boom
+#  bowtie
+#  dropbox
+#  geektool
+#  growl-fork
+#  key-codes
+#  unity
 )
 
 fonts=(
@@ -189,10 +188,46 @@ fonts=(
 
 echo "Installing Brews..."
 brew install ${binaries[@]}
-brew cleanup
+brew cleanup --force
+rm -rf /Library/Caches/Homebrew/*
 
 echo "Installing Apps..."
 brew cask install --appdir="/Applications" ${apps[@]}
 
 echo "Installing Fonts..."
 brew cask install ${fonts[@]}
+
+echo "Linking Alfred..."
+brew cask alfred link
+
+appstore=(
+  airmail
+  aperture
+  byword
+  daisydisk
+  dash
+  diskdoctor
+  forklift
+  gemini
+  gif-brewery
+  hyperdock
+  kaleidoscope
+  wunderlist
+)
+
+echo "Install These From AppStore:"
+echo ${appstore[@]}
+
+manual=(
+  adobe-acrobat-pro
+  disktools-pro
+  navicat-premium
+  omnigraffle
+  tuxera-ntfs
+  alcatraz-xcode
+)
+
+echo "Install These Manually:"
+echo ${manual[@]}
+
+echo "Goodbye!"

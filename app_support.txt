@@ -1,0 +1,50 @@
+Adobe
+AirDroid
+Alfred 2
+Aperture
+AppFresh
+Atom
+Avatron
+Bartender
+BetterTouchTool
+CleanMyMac 2
+DaisyDisk
+Dash
+Evernote
+Flux
+ForkLift
+GitHub for Mac
+Google
+Growl
+HandBrake
+Harvest
+Kaleidoscope
+Karabiner
+LastPass
+LightTable
+MacPaw Gemini
+Navicat Premium
+Plex Media Server
+Popcorn-Time
+Pow
+PremiumSoft CyberTech
+RubyMine70
+Seil
+Sequel Pro
+Skype
+Slack
+SourceTree
+Steam
+Sublime Text 3
+Transmission
+Xcode
+com.evernote.Evernote
+com.evernote.EvernoteHelper
+com.github.GitHub.ShipIt
+com.github.atom.ShipIt
+com.mediaatelier.CheatSheet
+com.slate.Slate
+iChm
+iStat Menus
+iTerm
+org.videolan.vlc
