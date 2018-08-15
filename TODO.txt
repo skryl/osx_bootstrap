@@ -1,2 +1,0 @@
-* Install OSX
-* Install Xcode w/ Command Line Tools

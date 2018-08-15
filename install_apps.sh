@@ -7,96 +7,85 @@ fi
 # Update homebrew recipes
 brew update
 
-# Install Caskroom
-brew install caskroom/cask/brew-cask
-
 # Install more recent versions of some OS X eools
-brew tap homebrew/dupes
 brew tap caskroom/fonts
-brew tap homebrew/versions
-brew tap caskroom/versions
 
 binaries=(
+
 # tools
   ack
-  aria2
   bash
   coreutils
   cscope
   ctags
-  emacs
   fasd
   findutils
+  fzf
   git
   grep
-  heroku-toolbelt
+  heroku/brew/heroku
   htop
-  mercurial
-  mysql
+  jq
+  mas
   netcat
   nmap
   openssl
   postgresql
-  pow
   reattach-to-user-namespace
   rename
   rlwrap
   sqlite
-  subversion
   the_silver_searcher
   tmux
   tofrodos
   trash
   tree
-  weechat
   wget
   zsh
+  # emacs
+  # mysql
+  # subversion
+
 
 # languages
-  node
-  python
-  rbenv
   ruby
+  rbenv
   ruby-build
-#  erlang
-#  ghc
+  node
+  nodenv
 #  go
-#  leiningen
-#  objective-caml
-#  sbt
 #  scala
-#  swi-prolog
 )
 
 apps=(
 
 # quicklook
   qlcolorcode
+  qlimagesize
+  qlmarkdown
   qlprettypatch
   qlstephen
-  qlmarkdown
-  quicklook-json
+  qlvideo
   quicklook-csv
-  betterzipql
+  quicklook-json
   suspicious-package
+  webpquicklook
 
 # system
-  airdisplay
-  asepsis
   cheatsheet
-  flash
+  duet
+  intel-power-gadget
   istat-menus
   iterm2
   java
-  java6
-  karabiner
+  karabiner-elements
   launchcontrol
   onyx
-  seil
-  silverlight
-  slate
   the-unarchiver
   unetbootin
+  # airdisplay
+  # asepsis
+  # slate
 
 # web
   firefox
@@ -104,86 +93,93 @@ apps=(
 
 # editors
   macvim
-  macdown
-  sublime-text3
+  visual-studio-code
+  sublime-text
 
 # dev
+  alcatraz
   charles
-  codekit
-  github
+  dash
+  docker
   hex-fiend
-  intellij-idea
-  lighttable
-  pycharm
-  reggy
+  intellij-idea-ce
+  kaleidoscope
+  mountain-duck
+  ngrok
+  paw
+  postman
   rubymine
-  sequel-pro
-  sourcetree
-  vagrant
-  vagrant-manager
+  tower
+  tuxera-ntfs
   virtualbox
   visualvm
-  webstorm
   wireshark
-  xquartz
+  sequel-pro
+  # codekit
+  # xquartz
 
 # media
   spotify
-  spotify-notifications
   vlc
 
-# other
+# productivity 
+  1password
+  adobe-acrobat-pro
   alfred
-  android-file-transfer
   appcleaner
   bartender
   bettertouchtool
-  caffeine
-  chromecast
-  djview
-  easyfind
+  cleanmymac
+  daisydisk
+  dropbox
+  endurance
   evernote
-  flux
-  google-hangouts
-  handbrake
+  fantastical
+  franz
+  gifox
   harvest
-  hazel
-  hiss
   hyperdock
-  ichm
   kindle
-  music-manager
-  paw
-  send-to-kindle
-  skitch
-  skype
-  slack
-  steam
+  omnigraffle
   teamviewer
   torbrowser
   transmission
-  walpaper-wizard
-
-#  boom
-#  bowtie
-#  dropbox
-#  geektool
-#  growl-fork
-#  key-codes
-#  unity
+  wallpaper-wizard
+  # boom
+  # djview
+  # easyfind
+  # handbrake
+  # hazel
+  # ichm
+  # send-to-kindle
+  # slack
+  # steam
 )
 
 fonts=(
-  font-anonymous-pro-for-powerline
-  font-dejavu-sans-mono-for-powerline
-  font-droid-sans-mono-for-powerline
-  font-inconsolata-dz-for-powerline
+  font-anonymice-powerline
   font-inconsolata-for-powerline
-  font-inconsolata-g-for-powerline
-  font-liberation-mono-for-powerline
-  font-meslo-lg-for-powerline
-  font-sauce-code-powerline
-  font-ubuntu-mono-powerline
+  font-noto-mono-for-powerline
+  font-consolas-for-powerline   
+  font-inconsolata-g-for-powerline      
+  font-roboto-mono-for-powerline
+  font-dejavu-sans-mono-for-powerline   
+  font-liberation-mono-for-powerline   
+  font-source-code-pro-for-powerline
+  font-droid-sans-mono-for-powerline   
+  font-menlo-for-powerline             
+  font-ubuntu-mono-derivative-powerline
+  font-fira-mono-for-powerline   
+  font-meslo-for-powerline
+  font-inconsolata-dz-for-powerline 
+  font-monofur-for-powerline
+)
+
+appstore=(
+  937984704  # amphetamine
+  410628904  # wunderlist
+  1176895641 # spark
+  961632517  # be focused pro
 )
 
 echo "Installing Brews..."
@@ -192,42 +188,12 @@ brew cleanup --force
 rm -rf /Library/Caches/Homebrew/*
 
 echo "Installing Apps..."
-brew cask install --appdir="/Applications" ${apps[@]}
+brew cask install ${apps[@]}
 
 echo "Installing Fonts..."
 brew cask install ${fonts[@]}
 
-echo "Linking Alfred..."
-brew cask alfred link
-
-appstore=(
-  airmail
-  aperture
-  byword
-  daisydisk
-  dash
-  diskdoctor
-  forklift
-  gemini
-  gif-brewery
-  hyperdock
-  kaleidoscope
-  wunderlist
-)
-
-echo "Install These From AppStore:"
-echo ${appstore[@]}
-
-manual=(
-  adobe-acrobat-pro
-  disktools-pro
-  navicat-premium
-  omnigraffle
-  tuxera-ntfs
-  alcatraz-xcode
-)
-
-echo "Install These Manually:"
-echo ${manual[@]}
+echo "Installing AppStore Apps:"
+mas install ${appstore[@]}
 
 echo "Goodbye!"
