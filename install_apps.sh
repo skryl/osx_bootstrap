@@ -16,6 +16,11 @@ if test ! -e "$HOME/.antigen"; then
       git.io/antigen
 fi
 
+# Install tmux plugin manager
+if test ! -e "$HOME/.tmux"; then
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+fi
+
 
 # Update homebrew recipes
 brew update
