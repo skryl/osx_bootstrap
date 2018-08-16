@@ -73,6 +73,17 @@ binaries=(
   nodenv
 #  go
 #  scala
+
+# build essentials
+  coreutils
+  automake
+  autoconf
+  openssl
+  libyaml
+  readline
+  libxslt
+  libtool
+  unixodbc
 )
 
 apps=(
