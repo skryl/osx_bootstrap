@@ -4,6 +4,19 @@ if test ! $(which brew); then
   ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
+# Install vim Plugin manager
+if test ! -e "$HOME/.vim"; then
+  curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+fi
+
+# Install zsh Plugin manager
+if test ! -e "$HOME/.antigen"; then
+  curl -fLo ~/.antigen/antigen.zsh --create-dirs \
+      git.io/antigen
+fi
+
+
 # Update homebrew recipes
 brew update
 
@@ -68,23 +81,23 @@ apps=(
   qlvideo
   quicklook-csv
   quicklook-json
-  suspicious-package
   webpquicklook
 
 # system
   cheatsheet
   duet
+  endurance
   intel-power-gadget
   istat-menus
   iterm2
   java
   karabiner-elements
   launchcontrol
-  onyx
+  superduper
   the-unarchiver
-  unetbootin
   # airdisplay
   # asepsis
+  # onyx
   # slate
 
 # web
@@ -103,26 +116,27 @@ apps=(
   docker
   hex-fiend
   intellij-idea-ce
-  kaleidoscope
   mountain-duck
   ngrok
   paw
+  postico
   postman
   rubymine
   tower
   tuxera-ntfs
-  virtualbox
   visualvm
   wireshark
   sequel-pro
   # codekit
   # xquartz
+  # virtualbox
 
 # media
   spotify
   vlc
+  airflow
 
-# productivity 
+# productivity
   1password
   adobe-acrobat-pro
   alfred
@@ -132,9 +146,7 @@ apps=(
   cleanmymac
   daisydisk
   dropbox
-  endurance
   evernote
-  fantastical
   franz
   gifox
   harvest
@@ -144,7 +156,6 @@ apps=(
   teamviewer
   torbrowser
   transmission
-  wallpaper-wizard
   # boom
   # djview
   # easyfind
@@ -160,26 +171,28 @@ fonts=(
   font-anonymice-powerline
   font-inconsolata-for-powerline
   font-noto-mono-for-powerline
-  font-consolas-for-powerline   
-  font-inconsolata-g-for-powerline      
+  font-consolas-for-powerline
+  font-inconsolata-g-for-powerline
   font-roboto-mono-for-powerline
-  font-dejavu-sans-mono-for-powerline   
-  font-liberation-mono-for-powerline   
+  font-dejavu-sans-mono-for-powerline
+  font-liberation-mono-for-powerline
   font-source-code-pro-for-powerline
-  font-droid-sans-mono-for-powerline   
-  font-menlo-for-powerline             
+  font-droid-sans-mono-for-powerline
+  font-menlo-for-powerline
   font-ubuntu-mono-derivative-powerline
-  font-fira-mono-for-powerline   
+  font-fira-mono-for-powerline
   font-meslo-for-powerline
-  font-inconsolata-dz-for-powerline 
+  font-inconsolata-dz-for-powerline
   font-monofur-for-powerline
 )
 
 appstore=(
   937984704  # amphetamine
-  410628904  # wunderlist
-  1176895641 # spark
   961632517  # be focused pro
+  587512244  # kaleidoscope
+  1176895641 # spark
+  410628904  # wunderlist
+  975937182  # fantastical
 )
 
 echo "Installing Brews..."
