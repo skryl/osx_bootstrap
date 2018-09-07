@@ -33,10 +33,12 @@ binaries=(
 # tools
   ack
   bash
+  bat
   coreutils
   cscope
   ctags
   fasd
+  fd
   findutils
   fzf
   git
@@ -45,15 +47,18 @@ binaries=(
   htop
   jq
   mas
+  ncdu
   netcat
   nmap
   openssl
   postgresql
+  prettyping
   reattach-to-user-namespace
   rename
   rlwrap
   sqlite
   the_silver_searcher
+  tldr
   tmux
   tofrodos
   trash
